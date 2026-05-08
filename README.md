@@ -45,15 +45,6 @@ visitor-signin-log/
 
 ### Visitor
 
-
-first_name": "Alex",
-        "last_name": "Naranjo",
-        "email": "alex.naranjo.m@gmail.com",
-        "phone": "3012223327",
-        "visit_date": "2026-05-08T05:05:46.121754Z",
-        "check_in": "2026-05-08T05:05:46.121839Z",
-        "check_out": "2026-05-01T15:06:00Z",
-
 | Field           | Type          | Description                  |
 |-----------------|---------------|------------------------------|
 | id              | Auto          | Primary key                  |
