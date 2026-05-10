@@ -35,7 +35,39 @@ def get_all_visitors():
     
     return visitors
 
+def create_visitor(first_name, last_name, email, phone, building_id):
+    """POST /api/visitors/ -- like gr.insert() in ServiceNow"""
+    payload = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "phone": phone,
+        "building": building_id
+    }
+    response = requests.post(f"{BASE_URL}/visitors/", json=payload)
+    response.raise_for_status()  # Raise an error for bad responses
+    visitor = response.json()
+    print(f"\n--- Created Visitor ---")
+    print(f"  ID: {visitor['id']}")
+    print(f"  Name: {visitor['first_name']} {visitor['last_name']}")
+    print(f"  Check-in: {visitor['check_in']}")
+    print(f"  Check-out: {visitor['check_out']}")
+    return visitor
 
+def check_out_visitor(visitor_id):
+    """
+    PATCH /api/visitors/:id/ -- like gr.update() in ServiceNow.
+    Sets check_out to current time.
+    Uses PATCH (partial update) instead of PUT (full replace).
+    """
+    from datetime import datetime, timezone
 
-              
-  
+    payload = {"check_out": datetime.now(timezone.utc).isoformat()}  # Set check_out
+    response = requests.patch(f"{BASE_URL}/visitors/{visitor_id}/", json=payload)
+    response.raise_for_status()  # Raise an error for bad responses
+    visitor = response.json()
+    print(f"\n--- Checked Out Visitor ---")
+    print(f"\n--- Checked Out Visitor ---")
+    print(f"  {visitor['first_name']} {visitor['last_name']}")
+    print(f"  Check-out: {visitor['check_out']}")
+    return visitor
