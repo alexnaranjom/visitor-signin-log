@@ -69,6 +69,15 @@ To reset the dev database: delete `db.sqlite3` and re-run `python manage.py migr
 
 `scripts/api_client.py` — standalone REST client demo. Exercises full CRUD against the live API. Run with `python scripts/api_client.py` while the dev server is up. Mirrors ServiceNow REST Message patterns (endpoint URL, HTTP method, JSON payload).
 
+## Management Commands
+
+```bash
+# Seed the database with sample buildings and visitors (clears existing data first)
+python manage.py seed_data
+```
+
+`visitors/management/commands/seed_data.py` — creates 5 buildings and 12 visitors; sets `check_out` on every third visitor to simulate a mix of active and departed visitors.
+
 ## Tests
 
 `visitors/tests.py` uses DRF's `APIClient` (not `requests`). Two test classes:
