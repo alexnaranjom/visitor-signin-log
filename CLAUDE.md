@@ -65,9 +65,20 @@ The browsable API is available at `http://127.0.0.1:8000/api/`.
 
 To reset the dev database: delete `db.sqlite3` and re-run `python manage.py migrate`.
 
+## Scripts
+
+`scripts/api_client.py` — standalone REST client demo. Exercises full CRUD against the live API. Run with `python scripts/api_client.py` while the dev server is up. Mirrors ServiceNow REST Message patterns (endpoint URL, HTTP method, JSON payload).
+
+## Tests
+
+`visitors/tests.py` uses DRF's `APIClient` (not `requests`). Two test classes:
+
+- `BuildingAPITests` — list, create, duplicate `building_code` rejection, delete
+- `VisitorAPITests` — list, create, invalid building FK rejection, PATCH checkout, cascade delete on building delete
+
 ## Roadmap
 
 - [x] Phase 1 — Django REST API with Building and Visitor models
-- [ ] Phase 2 — Sample data population
+- [x] Phase 2 — REST client (`scripts/api_client.py`) and API test suite
 - [ ] Phase 3 — ServiceNow developer instance setup
 - [ ] Phase 4 — Python migration script (API → ServiceNow)

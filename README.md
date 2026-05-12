@@ -12,7 +12,7 @@ This project provides a complete visitor management system built as a Django RES
 - **Django 6.0** — Web framework
 - **Django REST Framework** — RESTful API layer
 - **SQLite** — Development database
-- **ServiceNow** — Target migration platform (Phase 2)
+- **ServiceNow** — Target migration platform (Phase 4)
 
 ## Project Structure
 
@@ -26,7 +26,10 @@ visitor-signin-log/
 │   ├── models.py          # Building and Visitor data models
 │   ├── serializers.py     # JSON serialization
 │   ├── views.py           # API viewsets
-│   └── urls.py            # API route definitions
+│   ├── urls.py            # API route definitions
+│   └── tests.py           # DRF API tests (Building and Visitor)
+├── scripts/
+│   └── api_client.py      # REST client demo (mirrors ServiceNow REST Messages)
 ├── db.sqlite3             # SQLite database (dev only)
 └── manage.py
 ```
@@ -95,10 +98,37 @@ python manage.py runserver
 
 Visit `http://127.0.0.1:8000/api/` to access the browsable API.
 
+## Scripts
+
+### REST Client (`scripts/api_client.py`)
+
+A standalone demo script that exercises all CRUD operations against the live API. Mirrors the pattern of ServiceNow REST Messages (define endpoint, set method, send JSON payload, parse response).
+
+```bash
+# Make sure the dev server is running first
+python manage.py runserver
+
+# Run the client
+python scripts/api_client.py
+```
+
+The script creates a test building and visitor, checks the visitor out, then deletes both — leaving the database in its original state.
+
+## Testing
+
+```bash
+python manage.py test visitors
+```
+
+`visitors/tests.py` covers:
+
+- **BuildingAPITests** — list, create, duplicate code rejection, delete
+- **VisitorAPITests** — list, create, invalid building rejection, checkout (PATCH), cascade delete
+
 ## Roadmap
 
 - [x] Phase 1 — Django REST API with Building and Visitor models
-- [ ] Phase 2 — Sample data population
+- [x] Phase 2 — REST client (`scripts/api_client.py`) and API test suite
 - [ ] Phase 3 — ServiceNow developer instance setup
 - [ ] Phase 4 — Python migration script (API → ServiceNow)
 
