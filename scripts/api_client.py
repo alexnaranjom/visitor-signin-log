@@ -54,7 +54,7 @@ def create_visitor(first_name, last_name, email, phone, building_id):
     print(f"  Check-out: {visitor['check_out']}")
     return visitor
 
-def check_out_visitor(visitor_id):
+def checkout_visitor(visitor_id):
     """
     PATCH /api/visitors/:id/ -- like gr.update() in ServiceNow.
     Sets check_out to current time.
@@ -67,7 +67,30 @@ def check_out_visitor(visitor_id):
     response.raise_for_status()  # Raise an error for bad responses
     visitor = response.json()
     print(f"\n--- Checked Out Visitor ---")
-    print(f"\n--- Checked Out Visitor ---")
     print(f"  {visitor['first_name']} {visitor['last_name']}")
     print(f"  Check-out: {visitor['check_out']}")
     return visitor
+
+def delete_visitor(visitor_id):
+    """DELETE /api/visitors/:id/ -- like gr.delete() in ServiceNow"""
+    response = requests.delete(f"{BASE_URL}/visitors/{visitor_id}/")
+    if response.status_code == 204:
+        print(f"\n--- Deleted Visitor ID {visitor_id} ---")
+        return True
+    response.rause_for_status()  # Raise an error for bad responses
+
+def create_building(name, building_code, address, phone):
+    """POST /api/buildings/ -- like gr.insert() in ServiceNow"""
+    payload = {
+        "name": name,
+        "building_code": building_code,
+        "address": address,
+        "phone": phone
+    }
+    response = requests.post(f"{BASE_URL}/buildings/", json=payload)
+    response.raise_for_status()  # Raise an error for bad responses
+    building = response.json()
+    print(f"\n--- Created Building ---")
+    print(f"  ID: {building['id']}")
+    print(f"  Name: {building['name']} ({building['building_code']})")
+    return building
